@@ -19,18 +19,14 @@ let clickOne = null, clickTwo = null;
 let elementOne = null, elementTwo = null;
 let starsCount = 4;
 
-
 // Set variables for game timer
 let time = document.querySelector('.timer');
 let startTime = 0;
 let timeInt;
 
-
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
-
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -38,7 +34,6 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
@@ -59,8 +54,6 @@ function timer() {
   }, 1000);
 }
 
-
-
 // Add reveal elements to card function
 function showCard(elem) {
   elem.classList.add("open");
@@ -77,8 +70,7 @@ function unshowCard() {
   })
 }
 
-
-// Remove stars dependent on number of moves
+// Remove stars and reduce stars count dependent on number of moves
 function hideStars() {
   if (moves === 12) {
     stars[0].classList.add('hidden');
@@ -115,12 +107,12 @@ function clearClick() {
   clickTwo = null;
 }
 
-// End of game function
+// Clear timer interval
 function gameEnd() {
   clearInterval(timeInt);
 }
 
-// Reset variables function
+// Reset game variables
 function restartGame() {
   moves = 0;
   movesPanel.innerHTML = 0;
@@ -132,17 +124,7 @@ function restartGame() {
   showStars();
 }
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
+//Assign card class to new card elements by adding class to html
 const newCard = cardClass => {
   let li = document.createElement('li');
   li.classList.add('card');
@@ -153,40 +135,48 @@ const newCard = cardClass => {
   return li;
 };
 
+
+//Interaction with cards, including starting the timer, counting moves, and win conditions
 const pickCard = card => {
   card.addEventListener('click',function(e) {
     if (startTime === 0) {
       timer();
       startTime++;
     }
-
   let li = e.currentTarget;
+//Prevents from interacting with cards that are already flipped over
   if (locked || li.classList.contains('open') && li.classList.contains('show')) {
     return true;
   }
   let icon = li.getElementsByClassName('fa')[0].className;
+//If neither click has a value, assign the clicked value
   if(clickOne === null && clickTwo === null) {
     clickOne = icon;
     elementOne = li;
+//If the first click has a value, assign the next click the second value
   } else if (clickOne !== null && clickTwo === null) {
     clickTwo = icon;
     elementTwo = li;
     movesCounter();
+//If the className of clickOne's value matches the className of clickTwo's value then match cards
     if (clickOne === clickTwo) {
       elementOne.classList.add('match');
-      elementOne.classList.add('true');
       elementTwo.classList.add('match');
-      elementTwo.classList.add('true');
       solved++;
+/*
+ * Once 8 matches are counted, the timer interval is cleared,
+ * the end of game variables for time, moves, and stars captured,
+ * and the win panel is revealed.
+ */
       if (solved === 8) {
         gameEnd();
         endMoves.innerHTML = moves;
         endTime.innerHTML = time.innerHTML;
         endStars.innerHTML = starsCount;
         winPanel.classList.remove('hidden');
-
       }
     } else {
+// Adds unmatch class to indicate mismatch prior to returning card to unshown state
       elementOne.classList.add('unmatch');
       elementTwo.classList.add('unmatch');
       setTimeout(function () {
@@ -194,12 +184,12 @@ const pickCard = card => {
       }, 600)
     }
     clearClick();
-//    movesCounter();
   }
   showCard(li);
   })
 };
 
+//Clears variables and intervals before shuffling cards and ensuring win panel is hidden
 function gameStart() {
   restartGame();
   clearClick();
@@ -208,6 +198,7 @@ function gameStart() {
   time.innerHTML = '00:00';
   let list = document.getElementsByClassName('deck');
   list[0].innerHTML = '';
+//Applies the supplied random shuffle function from http://stackoverflow.com/a/2450976
   let cardsShuffled = shuffle(cardList);
   for (let card of cardsShuffled) {
     let li = newCard(card);
@@ -222,9 +213,7 @@ function gameStart() {
 //Run gameStart function on page load
 gameStart();
 
-
 //Event listener for restart
-
 restartButton.addEventListener('click', function () {
   gameStart()
 });
