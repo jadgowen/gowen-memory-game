@@ -4,13 +4,15 @@ let cardList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cu
 // Set reference variables variables
 let movesPanel = document.querySelector('.moves');
 let restartButton = document.querySelector('.restart');
+let time = document.querySelector('.timer');
 const stars = document.querySelectorAll('.fa-star');
 const winPanel = document.querySelector('.win-panel');
+const closeWinPanel = document.querySelector('.fa-close');
 let endMoves = document.querySelector('.end-moves');
 let endStars = document.querySelector('.end-stars');
 let endTime = document.querySelector('.end-time');
 
-// Set click and move counter variables to modify with functions
+// Set click, timer, and move counter variables to modify with functions
 let moves = 0;
 let solved = 0;
 let locked = false;
@@ -19,9 +21,6 @@ let clickTwo = null;
 let elementOne = null;
 let elementTwo = null;
 let starsCount = 4;
-
-// Set variables for game timer
-let time = document.querySelector('.timer');
 let startTime = 0;
 let timeInt;
 
@@ -38,17 +37,17 @@ function shuffle(array) {
     return array;
 }
 
-// Timer function inspired by https://stackoverflow.com/questions/20618355 by robbmj and Laura Enria
+// Timer function inspired by https://stackoverflow.com/questions/20618355 by robbmj
 function timer() {
   let mins = 0;
   let secs = 0;
   let decis = 0;
-//sets time interval to act at 1/10th of every second after starting
+// Sets time interval to act at 1/10th of every second after starting
   timeInt = setInterval(function () {
     decis = parseInt(decis) +1;
     secs = parseInt(secs);
     mins = parseInt(mins);
-//converts 10 deciseconds into one second, turns 60 seconds into one minute
+// Converts 10 deciseconds into one second, turns 60 seconds into one minute
     if (decis >= 10) {
       secs += 1;
       decis = 0;
@@ -57,7 +56,7 @@ function timer() {
       mins += 1;
       secs = 0;
     }
-//Keeps characters of timer in place despite single digit values
+// Keeps characters of timer in place despite single digit values
     secs = secs < 10 ? "0" + secs : secs;
     mins = mins < 10 ? "0" + mins : mins;
     time.innerHTML = mins + ":" + secs + "." + decis;
@@ -102,7 +101,7 @@ function showStars() {
   }
 }
 
-// Incremental moves counter
+// Incremental moves counter and conditions for hideStars function
 function movesCounter() {
   moves++;
   movesPanel.innerHTML = moves;
@@ -122,6 +121,15 @@ function gameEnd() {
   clearInterval(timeInt);
 }
 
+// Show and hide the win panel
+function winPanelShow() {
+  winPanel.classList.remove('hidden');
+}
+
+function winPanelHide() {
+  winPanel.classList.add('hidden');
+}
+
 // Reset game variables
 function restartGame() {
   moves = 0;
@@ -134,7 +142,7 @@ function restartGame() {
   showStars();
 }
 
-//Assign card class to new card elements by adding class to html
+// Assign card class to new card elements by adding class to html
 const newCard = cardClass => {
   let li = document.createElement('li');
   li.classList.add('card');
@@ -145,8 +153,7 @@ const newCard = cardClass => {
   return li;
 };
 
-
-//Interaction with cards, including starting the timer, counting moves, and win conditions
+// Interaction with cards, including starting the timer, counting moves, and win conditions
 const pickCard = card => {
   card.addEventListener('click',function(e) {
     if (startTime === 0) {
@@ -154,21 +161,21 @@ const pickCard = card => {
       startTime++;
     }
   let li = e.currentTarget;
-//Prevents from interacting with cards that are already flipped over
+// Prevents from interacting with cards that are already flipped over
   if (locked || li.classList.contains('open') && li.classList.contains('show')) {
     return true;
   }
   let icon = li.getElementsByClassName('fa')[0].className;
-//If neither click has a value, assign the clicked value
+// If neither click has a value, assign the clicked value
   if(clickOne === null && clickTwo === null) {
     clickOne = icon;
     elementOne = li;
-//If the first click has a value, assign the next click the second value
+// If the first click has a value, assign the next click the second value
   } else if (clickOne !== null && clickTwo === null) {
     clickTwo = icon;
     elementTwo = li;
     movesCounter();
-//If the className of clickOne's value matches the className of clickTwo's value then match cards
+// If the className of clickOne's value matches the className of clickTwo's value then match cards
     if (clickOne === clickTwo) {
       elementOne.classList.add('match');
       elementTwo.classList.add('match');
@@ -183,7 +190,7 @@ const pickCard = card => {
         endMoves.innerHTML = moves;
         endTime.innerHTML = time.innerHTML;
         endStars.innerHTML = starsCount;
-        winPanel.classList.remove('hidden');
+        winPanelShow();
       }
     } else {
 // Adds unmatch class to indicate mismatch prior to returning card to unshown state
@@ -199,16 +206,17 @@ const pickCard = card => {
   })
 };
 
-//Clears variables and intervals before shuffling cards and ensuring win panel is hidden
+// Clears variables and intervals before shuffling cards and ensuring win panel is hidden
 function gameStart() {
   restartGame();
   clearClick();
   gameEnd();
   winPanel.classList.add('hidden');
   time.innerHTML = '00:00.0';
+// Select the deck and clear all existing cards
   let list = document.getElementsByClassName('deck');
   list[0].innerHTML = '';
-//Applies the supplied random shuffle function from http://stackoverflow.com/a/2450976
+// Applies the supplied random shuffle function from http://stackoverflow.com/a/2450976
   let cardsShuffled = shuffle(cardList);
   for (let card of cardsShuffled) {
     let li = newCard(card);
@@ -220,10 +228,15 @@ function gameStart() {
   }
 }
 
-//Run gameStart function on page load
+// Run gameStart function on page load
 gameStart();
 
-//Event listener for restart
+// Event listener for restart
 restartButton.addEventListener('click', function () {
   gameStart()
+});
+
+// Close the win panel
+closeWinPanel.addEventListener('click', function () {
+  winPanelHide()
 });

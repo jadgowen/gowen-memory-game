@@ -33,6 +33,9 @@ h1 {
     font-weight: 300;
 }
 
+h2 {
+  font-size: 25px;
+}
 /* Used to hide elements for the game */
 
 .hidden {
@@ -132,12 +135,39 @@ h1 {
 
 .win-panel {
   background: #2e3d49;
-  color: #f1f1f1;
-  text-align: center;
   width: 90%;
+  height: 450px;
   max-width: 900px;
+  z-index: 1;
+  position: fixed;
+  overflow: auto;
+  border-radius: 50px;
+  border: 10px solid #c99312;
+}
+
+.win-panel-content {
+  margin: auto;
+  text-align: center;
+  color: #f1f1f1;
+  padding-top: 60px;
 }
 
 .win-panel .end-scores {
   color: #c99312;
+}
+
+.win-panel .end-icons {
+  color: #c99312;
+}
+
+.win-panel .close-button {
+  color: #c99312;
+  float: right;
+  padding-right: 25px;
+  padding-top: 25px;
+  font-size: 25px;
+}
+
+.close-button:active {
+  color: #f1f1f1;
 }
