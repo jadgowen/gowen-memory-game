@@ -136,7 +136,7 @@ h2 {
 .win-panel {
   background: #2e3d49;
   width: 90%;
-  height: 450px;
+  height: 60%;
   max-width: 900px;
   z-index: 1;
   position: fixed;
@@ -160,6 +160,10 @@ h2 {
   color: #c99312;
 }
 
+.end-icons:hover {
+  color: #f1f1f1;
+}
+
 .win-panel .close-button {
   color: #c99312;
   float: right;
@@ -168,6 +172,138 @@ h2 {
   font-size: 25px;
 }
 
-.close-button:active {
+.close-button:active,
+.close-button:hover {
   color: #f1f1f1;
+}
+
+.win-panel .end-restart {
+  color: #c99312;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.end-restart:active,
+.end-restart:hover {
+  color: #f1f1f1;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 450px){
+  .deck {
+      width: 300px;
+      min-height: 300px;
+      padding: 6px;
+  }
+
+  .deck .card {
+      height: 65px;
+      width: 65px;
+  }
+
+  .score-panel {
+      text-align: left;
+      width: 300px;
+      margin-bottom: 10px;
+  }
+
+  .win-panel .close-button {
+    padding-right: 18px;
+    padding-top: 18px;
+    font-size: 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .win-panel-content {
+    padding-top: 40px;
+  }
+}
+
+@media only screen and (min-width: 451px) and (max-width: 660px){
+  .deck {
+      width: 450px;
+      min-height: 450px;
+      padding: 10px;
+  }
+
+  .deck .card {
+      height: 95px;
+      width: 95px;
+  }
+
+  .score-panel {
+      text-align: left;
+      width: 450px;
+      margin-bottom: 10px;
+  }
+
+  .win-panel .close-button {
+    padding-right: 20px;
+    padding-top: 20px;
+    font-size: 25px;
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+
+  .win-panel-content {
+    padding-top: 50px;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1200px){
+  .deck {
+      width: 900px;
+      min-height: 950px;
+      padding: 10px;
+  }
+
+  .deck .card {
+      height: 200px;
+      width: 200px;
+  }
+
+  .score-panel {
+      text-align: left;
+      width: 800px;
+      margin-bottom: 10px;
+      font-size: 40px;
+  }
+
+  .win-panel .close-button {
+    padding-right: 20px;
+    padding-top: 20px;
+    font-size: 25px;
+  }
+
+  h1 {
+    font-size: 50px;
+  }
+
+  h2 {
+    font-size: 55px;
+  }
+
+  .end-font {
+    font-size: 45px;
+  }
+
+  .win-panel-content {
+    padding-top: 50px;
+  }
+
+  .deck .card.show {
+      font-size: 60px;
+  }
+
+  .deck .card.match {
+      font-size: 60px;
+  }
+
+  .deck .card.unmatch {
+      font-size: 60px;
+  }
 }
