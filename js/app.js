@@ -81,14 +81,14 @@ function unshowCard() {
 
 // Remove stars and reduce stars count dependent on number of moves
 function hideStars() {
-  if (moves === 12) {
+  if (moves === 16) {
     stars[0].classList.add('hidden');
     starsCount--;
     return true;
-  } else if (moves === 16) {
+  } else if (moves === 20) {
     stars[1].classList.add('hidden');
     starsCount--;
-  } else if (moves === 20) {
+  } else if (moves === 24) {
     stars[2].classList.add('hidden');
     starsCount--;
   }
@@ -105,7 +105,7 @@ function showStars() {
 function movesCounter() {
   moves++;
   movesPanel.innerHTML = moves;
-  if (moves <= 20 && moves !== 0) {
+  if (moves <= 24 && moves !== 0) {
     hideStars()
   }
 }
