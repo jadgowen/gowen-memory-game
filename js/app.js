@@ -142,7 +142,7 @@ function restartGame() {
   showStars();
 }
 
-// Assign card class to new card elements by adding class to html
+// Assign card class to new card elements by adding class to html inspired by https://codepen.io/LauraEnria/pen/yjgPvR
 const newCard = cardClass => {
   let li = document.createElement('li');
   li.classList.add('card');
