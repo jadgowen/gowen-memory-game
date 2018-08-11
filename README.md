@@ -4,6 +4,7 @@
 
 * [Instructions](#instructions)
 * [Comments](#comments)
+* [Dependencies](#dependencies)
 
 ## Instructions
 
@@ -16,4 +17,8 @@ Players begin with a score of 4 stars, and as the number of moves increases, the
 
 ## Comments
 
-This Memory Game project leveraged existing css, html, and js resources associated with the project.
+This Memory Game project leveraged existing css, html, and js resources associated with the project. It was also inspired by existing projects and all of the great contributors at sites like StackOverflow, MDN Developer and w3 Schools.
+
+## Dependencies
+
+The project references scripts in its css folder and js folder as well as a Google font for the text and a Bootstrap font for the card symbols.
