@@ -1,6 +1,5 @@
 // Set initial card list, variable card list for matches, and sectional selector variables
 let cardList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-bomb", "fa-bicycle", "fa-leaf","fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-bomb", "fa-bicycle", "fa-leaf"];
-let openCardList = [];
 
 // Set reference variables variables
 let movesPanel = document.querySelector('.moves');
@@ -15,8 +14,10 @@ let endTime = document.querySelector('.end-time');
 let moves = 0;
 let solved = 0;
 let locked = false;
-let clickOne = null, clickTwo = null;
-let elementOne = null, elementTwo = null;
+let clickOne = null;
+let clickTwo = null;
+let elementOne = null;
+let elementTwo = null;
 let starsCount = 4;
 
 // Set variables for game timer
@@ -37,21 +38,30 @@ function shuffle(array) {
     return array;
 }
 
-// Timer function inspired by https://stackoverflow.com/questions/20618355 and Laura Enria
+// Timer function inspired by https://stackoverflow.com/questions/20618355 by robbmj and Laura Enria
 function timer() {
   let mins = 0;
   let secs = 0;
+  let decis = 0;
+//sets time interval to act at 1/10th of every second after starting
   timeInt = setInterval(function () {
-    secs = parseInt(secs, 10) + 1;
-    mins = parseInt(mins, 10);
+    decis = parseInt(decis) +1;
+    secs = parseInt(secs);
+    mins = parseInt(mins);
+//converts 10 deciseconds into one second, turns 60 seconds into one minute
+    if (decis >= 10) {
+      secs += 1;
+      decis = 0;
+    }
     if (secs >= 60) {
       mins += 1;
       secs = 0;
     }
+//Keeps characters of timer in place despite single digit values
     secs = secs < 10 ? "0" + secs : secs;
     mins = mins < 10 ? "0" + mins : mins;
-    time.innerHTML = mins + ":" + secs;
-  }, 1000);
+    time.innerHTML = mins + ":" + secs + "." + decis;
+  }, 100);
 }
 
 // Add reveal elements to card function
@@ -195,7 +205,7 @@ function gameStart() {
   clearClick();
   gameEnd();
   winPanel.classList.add('hidden');
-  time.innerHTML = '00:00';
+  time.innerHTML = '00:00.0';
   let list = document.getElementsByClassName('deck');
   list[0].innerHTML = '';
 //Applies the supplied random shuffle function from http://stackoverflow.com/a/2450976
