@@ -14,10 +14,11 @@ The game begins on the first click of a card as indicated by the timer. At any t
 
 Players begin with a score of 4 stars, and as the number of moves increases, the number of stars begins to decline.
 
+Play the game by clicking [here](http://htmlpreview.github.io/?https://github.com/jadgowen/gowen-memory-game/blob/master/index.html).
 
 ## Comments
 
-This Memory Game project leveraged existing css, html, and js resources associated with the project. It was also inspired by existing projects and all of the great contributors at sites like StackOverflow, MDN Developer and w3 Schools.
+This Memory Game project leveraged existing css, html, and js resources associated with the project. It was also inspired by all of the great contributors at sites like StackOverflow, MDN Developer, w3 Schools, and most impressive, the great students at Udacity.
 
 ## Dependencies
 
