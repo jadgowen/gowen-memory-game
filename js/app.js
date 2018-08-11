@@ -11,6 +11,7 @@ const closeWinPanel = document.querySelector('.fa-close');
 let endMoves = document.querySelector('.end-moves');
 let endStars = document.querySelector('.end-stars');
 let endTime = document.querySelector('.end-time');
+let endRestartButton = document.querySelector('.end-restart');
 
 // Set click, timer, and move counter variables to modify with functions
 let moves = 0;
@@ -26,7 +27,7 @@ let timeInt;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -76,7 +77,7 @@ function unshowCard() {
     elem.classList.remove('unmatch');
     elem.classList.remove('show');
     elem.classList.remove('open');
-  })
+  });
 }
 
 // Remove stars and reduce stars count dependent on number of moves
@@ -160,48 +161,48 @@ const pickCard = card => {
       timer();
       startTime++;
     }
-  let li = e.currentTarget;
+    let li = e.currentTarget;
 // Prevents from interacting with cards that are already flipped over
-  if (locked || li.classList.contains('open') && li.classList.contains('show')) {
-    return true;
-  }
-  let icon = li.getElementsByClassName('fa')[0].className;
+    if (locked || li.classList.contains('show', 'open')) {
+      return true;
+    }
+    let icon = li.getElementsByClassName('fa')[0].className;
 // If neither click has a value, assign the clicked value
-  if(clickOne === null && clickTwo === null) {
-    clickOne = icon;
-    elementOne = li;
+    if(clickOne === null && clickTwo === null) {
+      clickOne = icon;
+      elementOne = li;
 // If the first click has a value, assign the next click the second value
-  } else if (clickOne !== null && clickTwo === null) {
-    clickTwo = icon;
-    elementTwo = li;
-    movesCounter();
+    } else if (clickOne !== null && clickTwo === null) {
+      clickTwo = icon;
+      elementTwo = li;
+      movesCounter();
 // If the className of clickOne's value matches the className of clickTwo's value then match cards
-    if (clickOne === clickTwo) {
-      elementOne.classList.add('match');
-      elementTwo.classList.add('match');
-      solved++;
+      if (clickOne === clickTwo) {
+        elementOne.classList.add('match');
+        elementTwo.classList.add('match');
+        solved++;
 /*
  * Once 8 matches are counted, the timer interval is cleared,
  * the end of game variables for time, moves, and stars captured,
  * and the win panel is revealed.
  */
-      if (solved === 8) {
-        gameEnd();
-        endMoves.innerHTML = moves;
-        endTime.innerHTML = time.innerHTML;
-        endStars.innerHTML = starsCount;
-        winPanelShow();
-      }
-    } else {
+        if (solved === 8) {
+          gameEnd();
+          endMoves.innerHTML = moves;
+          endTime.innerHTML = time.innerHTML;
+          endStars.innerHTML = starsCount;
+          winPanelShow();
+        }
+      } else {
 // Adds unmatch class to indicate mismatch prior to returning card to unshown state
-      elementOne.classList.add('unmatch');
-      elementTwo.classList.add('unmatch');
-      setTimeout(function () {
-        unshowCard()
-      }, 600)
+        elementOne.classList.add('unmatch');
+        elementTwo.classList.add('unmatch');
+        setTimeout(function () {
+          unshowCard()
+        }, 600)
+      }
+      clearClick();
     }
-    clearClick();
-  }
   showCard(li);
   })
 };
@@ -233,6 +234,11 @@ gameStart();
 
 // Event listener for restart
 restartButton.addEventListener('click', function () {
+  gameStart()
+});
+
+// Event listener for win panel restart
+endRestartButton.addEventListener('click', function () {
   gameStart()
 });
 
